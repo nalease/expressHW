@@ -16,26 +16,26 @@ var friendMatch = {
       scores:""
     };
 
-for (var i = 0; i < friends.length; i++) {
-	
-var sum = 0
-	for (var a = 0; a < userScores.length; a++) {
-		sum += Math.abs(friends[i].scores[a] - userScores[a]
-	)}
-	if (sum < totalDifference) {
-		totalDifference = sum
-		friendMatch.name = friends[i].name
-		friendMatch.photo = friends[i].photo
-	};
-};
+var userData = req.body;
+var userScores = userData.scores;
+var totalDifference;
 
+    for (var i = 0; i < friends.length; i++) {
+      var currentFriend = friends[i];
+        totalDifference = 0;
+        console.log(currentFriend.name);
 
-//$('.next').click(function() {
-    //var inputs = $(this).parent().find('input[value=""]');
-    //if (!inputs.length) {
-        // you have empty fields if this section is reached
-  //  }
-//});
+    for (var j = 0; j < currentFriend.scores.length; j++) {
+                var currentFriendScore = currentFriend.scores[j];
+                var currentUserScore = userScores[j];
+                totalDifference += Math.abs(parseInt(currentUserScore) - parseInt(currentFriendScore));
+            }
+    if (totalDifference <= friendMatch.friendDifference) {
+                friendMatch.name = currentFriend.name;
+                friendMatch.photo = currentFriend.photo;
+                friendMatch.friendDifference = totalDifference;
+            }
+        }
 friends.push(userData);
 
 res.json(friendMatch);
